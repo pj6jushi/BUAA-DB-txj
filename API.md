@@ -281,10 +281,11 @@ return Response({
 })
 ```
 
-### 查看评论（待测试，完成评论上传后测试）
+### 查看评论（待测试，完成评论接口后测试）
 
 1. **接口名**：user_comment
 2. **请求形式**：post
+3. **url**: /user/comment/
 
 ```json
 前端发送数据：
@@ -302,8 +303,8 @@ return Response({
 }
 ```
 
-查到评论
-```
+成功查询，且有评论
+```python
 return Response({
 	'state': 1,
 	'error': '',
@@ -311,11 +312,20 @@ return Response({
 })
 ```
 
-没查到
+成功查询，但没有评论
+```python
+return Response({
+	'state': 1,
+	'error': 'No comments found',
+	'comments': comment_list
+})
 ```
+
+用户不存在
+```python
 return Response({
 	'state': 0,
-	'error': 'No comments found'
+	'error': 'User not found'
 }, status=status.HTTP_400_BAD_REQUEST)
 ```
 

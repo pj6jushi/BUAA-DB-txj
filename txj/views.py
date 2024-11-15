@@ -174,23 +174,35 @@ class UserHistoryQuery(APIView):
             })
 
 
+# TODO 对评论查询功能测试
 class UserComment(APIView):
     def post(self, request):
         uid = request.data.get('Uid')
 
+        # 检查用户是否存在
         try:
-            comments = Comment.objects.filter(uid=uid).values('cid')
-            comment_list = list(comments)  # 将查询结果转为列表
+            user = User.objects.get(uid=uid)
+        except User.DoesNotExist:
+            return Response({
+                'state': 0,
+                'error': 'User not found'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # 查询用户的评论
+        comments = Comment.objects.filter(uid=uid).values('cid')
+        comment_list = list(comments)  # 将查询结果转为列表
+        if len(comment_list) == 0:
+            return Response({
+                'state': 1,
+                'error': 'No comments found',
+                'comments': comment_list
+            })
+        else:
             return Response({
                 'state': 1,
                 'error': '',
                 'comments': comment_list
             })
-        except Comment.DoesNotExist:
-            return Response({
-                'state': 0,
-                'error': 'No comments found'
-            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class MovieQuery(APIView):
