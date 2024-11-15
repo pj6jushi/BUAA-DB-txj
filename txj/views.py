@@ -143,24 +143,35 @@ class UserHistoryUpload(APIView):
                 'error': 'Movie not found'
             }, status=status.HTTP_400_BAD_REQUEST)
 
-
 class UserHistoryQuery(APIView):
     def post(self, request):
         uid = request.data.get('Uid')
 
+        # 检查用户是否存在
         try:
-            history = History.objects.filter(uid=uid).values('mid', 'time')
-            history_list = list(history)  # 将查询结果转为列表
+            user = User.objects.get(uid=uid)
+        except User.DoesNotExist:
+            return Response({
+                'state': 0,
+                'error': 'User not found'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # 如果用户存在，查询其观看历史
+        history = History.objects.filter(uid=uid).values('mid', 'time')
+        history_list = list(history)  # 将查询结果转为列表
+
+        if len(history_list) == 0:
+            return Response({
+                'state': 1,
+                'error': 'No history found',
+                'history': history_list
+            })
+        else:
             return Response({
                 'state': 1,
                 'error': '',
                 'history': history_list
             })
-        except History.DoesNotExist:
-            return Response({
-                'state': 0,
-                'error': 'No history found'
-            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserComment(APIView):

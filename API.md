@@ -25,6 +25,7 @@
 
 1. **接口名**：user_login
 2. **请求形式**：post
+3. **url**: /user/login/
 
 ```json
 前端发送数据：
@@ -69,6 +70,7 @@ return Response({
 
 1. **接口名**：user_register
 2. **请求形式**：post
+3. **url**: /user/register/
 
 ```json
 前端发送数据：
@@ -116,6 +118,7 @@ except ValidationError as e:
 
 1. **接口名**：user_forget
 2. **请求形式**：post
+3. **url**: /user/forget/
 
 ```json
 前端发送数据：
@@ -160,6 +163,7 @@ return Response({
 
 1. **接口名**：user_photo
 2. **请求形式**：post
+3. **url**: /user/photo/
 
 ```json
 前端发送数据：
@@ -195,6 +199,7 @@ return Response({
 
 1. **接口名**：user_history_upload
 2. **请求形式**：post
+3. **url**: /user/history/upload/
 
 ```json
 前端发送数据：
@@ -239,6 +244,7 @@ return Response({
 
 1. **接口名**：user_history_query
 2. **请求形式**：post
+3. **url**: /user/history/query/
 
 ```json
 前端发送数据：
@@ -257,8 +263,8 @@ return Response({
 }
 ```
 
-查询到
-```
+成功查询，且有历史记录：
+```python
 return Response({
 	'state': 1,
 	'error': '',
@@ -266,15 +272,16 @@ return Response({
 })
 ```
 
-没查到：
-```
+成功查询，但没有历史记录：
+```python
 return Response({
-	'state': 0,
-	'error': 'No history found'
-}, status=status.HTTP_400_BAD_REQUEST)
+	'state': 1,
+	'error': 'No history found',
+	'history': history_list
+})
 ```
 
-### 查看评论
+### 查看评论（待测试，完成评论上传后测试）
 
 1. **接口名**：user_comment
 2. **请求形式**：post

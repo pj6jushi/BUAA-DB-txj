@@ -12,6 +12,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 （如果出现报错，可能是编码格式的问题，在编辑器中检查txj文件夹下models.py文件的编码格式，更改为UTF-8）
+
 4. 运行项目，执行以下命令：
 ```
 python manage.py runserver
