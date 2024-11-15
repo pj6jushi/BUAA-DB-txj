@@ -331,10 +331,11 @@ return Response({
 
 ## 电影Movie
 
-### 搜索
+### 搜索（已实现并进行接口测试）
 
 1. **接口名**：movie_query
 2. **请求形式**：get
+3. **url**: /movie/query/
 
 ```json
 前端发送数据：
@@ -350,10 +351,17 @@ return Response({
 }
 ```
 
-### 上传电影
+```python
+return Response({
+	'data': movie_list
+})
+```
+
+### 上传电影（已实现并进行接口测试）
 
 1. **接口名**：movie_upload
 2. **请求形式**：post
+3. **url**: /movie/upload/
 
 ```json
 前端发送数据：
@@ -374,7 +382,7 @@ return Response({
 ```
 
 上传成功：
-```
+```python
 return Response({
 	'state': 1,
 	'error': ''
@@ -382,7 +390,7 @@ return Response({
 ```
 
 上传失败：
-```
+```python
 except ValidationError as e:
 	return Response({
 		'state': 0,
@@ -390,10 +398,11 @@ except ValidationError as e:
 	}, status=status.HTTP_400_BAD_REQUEST)
 ```
 
-### 修改电影
+### 修改电影（已实现并进行接口测试）
 
 1. **接口名**：movie_modify
 2. **请求形式**：post
+3. **url**: /movie/modify/
 
 ```json
 前端发送数据：
@@ -415,7 +424,7 @@ except ValidationError as e:
 ```
 
 修改成功：
-```
+```python
 return Response({
 	'state': 1,
 	'error': ''
@@ -423,7 +432,7 @@ return Response({
 ```
 
 电影不存在
-```
+```python
 return Response({
 	'state': 0,
 	'error': 'Movie not found'
@@ -431,17 +440,18 @@ return Response({
 ```
 
 修改失败
-```
+```python
 return Response({
 	'state': 0,
 	'error': str(e)
 }, status=status.HTTP_400_BAD_REQUEST)
 ```
 
-### 获取热度(评论数)
+### 获取热度(评论数)（待测试，完成评论接口后测试）
 
 1. **接口名**：movie_heat
 2. **请求形式**：post
+3. **url**: /movie/heat/
 
 ```json
 前端发送数据：
@@ -458,7 +468,7 @@ return Response({
 ```
 
 获取成功
-```
+```python
 return Response({
 	'state': 1,
 	'error': '',
@@ -467,14 +477,14 @@ return Response({
 ```
 
 电影不存在
-```
+```python
 return Response({
 	'state': 0,
 	'error': 'Movie not found'
 }, status=status.HTTP_400_BAD_REQUEST)
 ```
 
-### 获取评分 todo
+### 获取评分（待实现）
 
 1. **接口名**：movie_score
 2. **请求形式**：post
@@ -495,10 +505,11 @@ return Response({
 
 
 
-### 获取封面
+### 获取封面（已实现并进行接口测试）
 
 1. **接口名**：movie_cover
 2. **请求形式**：post
+3. **url**: /movie/cover/
 
 ```json
 前端发送数据：
@@ -515,7 +526,7 @@ return Response({
 ```
 
 获取成功
-```
+```python
 return Response({
 	'state': 1,
 	'error': '',
@@ -524,17 +535,18 @@ return Response({
 ```
 
 电影不存在
-```
+```python
 return Response({
 	'state': 0,
 	'error': 'Movie not found'
 }, status=status.HTTP_400_BAD_REQUEST)
 ```
 
-### 获取简介
+### 获取简介（已实现并进行接口测试）
 
 1. **接口名**：movie_brief
 2. **请求形式**：post
+3. **url**: /movie/brief/
 
 ```json
 前端发送数据：
@@ -551,7 +563,7 @@ return Response({
 ```
 
 获取成功
-```
+```python
 return Response({
 	'state': 1,
 	'error': '',
@@ -560,17 +572,18 @@ return Response({
 ```
 
 电影不存在
-```
+```python
 return Response({
 	'state': 0,
 	'error': 'Movie not found'
 }, status=status.HTTP_400_BAD_REQUEST)
 ```
 
-### 获取上映时间
+### 获取上映时间（已实现并进行接口测试）
 
 1. **接口名**：movie_date
 2. **请求形式**：post
+3. **url**: /movie/date/
 
 ```json
 前端发送数据：
@@ -587,7 +600,7 @@ return Response({
 ```
 
 获取成功
-```
+```python
 return Response({
 	'state': 1,
 	'error': '',
@@ -596,17 +609,18 @@ return Response({
 ```
 
 电影不存在
-```
+```python
 return Response({
 	'state': 0,
 	'error': 'Movie not found'
 }, status=status.HTTP_400_BAD_REQUEST)
 ```
 
-### 获取类型
+### 获取类型（已实现并进行接口测试）
 
 1. **接口名**：movie_type
 2. **请求形式**：post
+3. **url**: /movie/type/
 
 ```json
 前端发送数据：
@@ -623,7 +637,7 @@ return Response({
 ```
 
 获取成功
-```
+```python
 return Response({
 	'state': 1,
 	'error': '',
@@ -632,17 +646,18 @@ return Response({
 ```
 
 电影不存在
-```
+```python
 return Response({
 	'state': 0,
 	'error': 'Movie not found'
 }, status=status.HTTP_400_BAD_REQUEST)
 ```
 
-### 获取时长
+### 获取时长（已实现并进行接口测试）
 
 1. **接口名**：movie_duration
 2. **请求形式**：post
+3. **url**: /movie/duration/
 
 ```json
 前端发送数据：
@@ -675,7 +690,7 @@ return Response({
 }, status=status.HTTP_400_BAD_REQUEST)
 ```
 
-### 获取评论 todo
+### 获取评论（待实现）
 
 1. **接口名**：movie_comment
 2. **请求形式**：post
@@ -696,7 +711,7 @@ return Response({
 }
 ```
 
-### 获取导演 todo
+### 获取导演（待实现）
 
 1. **接口名**：movie_director
 2. **请求形式**：post
@@ -717,10 +732,11 @@ return Response({
 }
 ```
 
-### 获取演员
+### 获取演员（已实现并进行接口测试）
 
 1. **接口名**：movie_actor
 2. **请求形式**：post
+3. **url**: /movie/actor/
 
 ```json
 前端发送数据：
@@ -739,7 +755,32 @@ return Response({
 }
 ```
 
-### 获取标签 todo
+电影不存在
+```python
+return Response({
+	'state': 0,
+	'error': 'Movie not found'
+}, status=status.HTTP_404_NOT_FOUND)
+```
+
+该电影无演员
+```python
+return Response({
+	'state': 0,
+	'error': 'No actors found for this movie'
+}, status=status.HTTP_404_NOT_FOUND)
+```
+
+获取成功
+```python
+return Response({
+	'state': 1,
+	'error': '',
+	'actors': actor_data
+})
+```
+
+### 获取标签（待实现）
 
 1. **接口名**：movie_tag
 2. **请求形式**：post
@@ -762,10 +803,11 @@ return Response({
 
 ## 演员actor
 
-### 搜索
+### 搜索（已实现并进行接口测试）
 
 1. **接口名**：actor_query
 2. **请求形式**：get
+3. **url**: /actor/query/
 
 ```json
 前端发送数据：
@@ -781,10 +823,17 @@ return Response({
 }
 ```
 
-### 上传演员
+```python
+return Response({
+	'data': actor_list
+})
+```
+
+### 上传演员（已实现并进行接口测试）
 
 1. **接口名**：actor_upload
 2. **请求形式**：post
+3. **url**: /actor/upload/
 
 ```json
 前端发送数据：
@@ -803,10 +852,28 @@ return Response({
 }
 ```
 
-### 修改演员
+上传成功
+```python
+return Response({
+	'state': 1,
+	'error': ''
+})
+```
+
+上传失败
+```python
+except ValidationError as e:
+	return Response({
+		'state': 0,
+		'error': str(e)
+	}, status=status.HTTP_400_BAD_REQUEST)
+```
+
+### 修改演员（已实现并进行接口测试）
 
 1. **接口名**：actor_modify
 2. **请求形式**：post
+3. **url**: /actor/modify/
 
 ```json
 前端发送数据：
@@ -826,10 +893,35 @@ return Response({
 }
 ```
 
-### 演员参演电影
+修改成功
+```python
+return Response({
+	'state': 1,
+	'error': ''
+})
+```
+
+演员不存在
+```python
+return Response({
+	'state': 0,
+	'error': 'Actor not found'
+}, status=status.HTTP_400_BAD_REQUEST)
+```
+
+修改失败
+```python
+return Response({
+	'state': 0,
+	'error': str(e)
+}, status=status.HTTP_400_BAD_REQUEST)
+```
+
+### 演员参演电影（已实现并进行接口测试）
 
 1. **接口名**：actor_in_movie
-2. 请求形式：post
+2. **请求形式**：post
+3. **url**: /actor/inmovie/
 
 ```json
 前端发送数据：
@@ -846,10 +938,44 @@ return Response({
 }
 ```
 
-### 获取姓名
+成功建立参演关系：
+```python
+return Response({
+	'state': 1,
+	'error': ''
+})
+```
+
+演员不存在：
+```python
+return Response({
+	'state': 0,
+	'error': 'Actor not found'
+}, status=status.HTTP_404_NOT_FOUND)
+```
+
+电影不存在：
+```python
+return Response({
+	'state': 0,
+	'error': 'Movie not found'
+}, status=status.HTTP_404_NOT_FOUND)
+```
+
+建立失败：
+```python
+except ValidationError as e:
+	return Response({
+		'state': 0,
+		'error': str(e)
+	}, status=status.HTTP_400_BAD_REQUEST)
+```
+
+### 获取姓名（已实现并进行接口测试）
 
 1. **接口名**：actor_name
 2. **请求形式**：post
+3. **url**: /actor/name/
 
 ```json
 前端发送数据：
@@ -865,10 +991,28 @@ return Response({
 }
 ```
 
-### 获取照片
+获取成功
+```python
+return Response({
+	'state': 1,
+	'error': '',
+	'name': actor.name
+})
+```
+
+演员不存在
+```python
+return Response({
+	'state': 0,
+	'error': 'Actor not found'
+}, status=status.HTTP_400_BAD_REQUEST)
+```
+
+### 获取照片（已实现并进行接口测试）
 
 1. **接口名**：actor_photo
 2. **请求形式**：post
+3. **url**: /actor/photo/
 
 ```json
 前端发送数据：
@@ -884,10 +1028,28 @@ return Response({
 }
 ```
 
-### 获取性别
+获取成功
+```python
+return Response({
+	'state': 1,
+	'error': '',
+	'photoUrl': actor.photopath
+})
+```
+
+演员不存在
+```python
+return Response({
+	'state': 0,
+	'error': 'Actor not found'
+}, status=status.HTTP_400_BAD_REQUEST)
+```
+
+### 获取性别（已实现并进行接口测试）
 
 1. **接口名**：actor_gender
 2. **请求形式**：post
+3. **url**: /actor/gender/
 
 ```json
 前端发送数据：
@@ -903,7 +1065,24 @@ return Response({
 }
 ```
 
-### 获取国籍
+获取成功
+```python
+return Response({
+	'state': 1,
+	'error': '',
+	'gender': actor.gender
+})
+```
+
+演员不存在
+```python
+return Response({
+	'state': 0,
+	'error': 'Actor not found'
+}, status=status.HTTP_400_BAD_REQUEST)
+```
+
+### 获取国籍（已实现并进行接口测试）
 
 1. **接口名**：actor_nationality
 2. **请求形式**：post
@@ -922,7 +1101,24 @@ return Response({
 }
 ```
 
-### 获取生日
+获取成功
+```python
+return Response({
+	'state': 1,
+	'error': '',
+	'nationality': actor.nationality
+})
+```
+
+演员不存在
+```python
+return Response({
+	'state': 0,
+	'error': 'Actor not found'
+}, status=status.HTTP_400_BAD_REQUEST)
+```
+
+### 获取生日（已实现并进行接口测试）
 
 1. **接口名**：actor_birthdate
 2. **请求形式**：post
@@ -941,10 +1137,28 @@ return Response({
 }
 ```
 
-### 获取参演电影
+获取成功
+```python
+return Response({
+	'state': 1,
+	'error': '',
+	'birthdate': actor.birthdate
+})
+```
+
+演员不存在
+```python
+return Response({
+	'state': 0,
+	'error': 'Actor not found'
+}, status=status.HTTP_400_BAD_REQUEST)
+```
+
+### 获取参演电影（已实现并进行接口测试）
 
 1. **接口名**：actor_movie
 2. **请求形式**：post
+3. **url**: /actor/movie/
 
 ```json
 前端发送数据：
@@ -961,6 +1175,33 @@ return Response({
     }]
 }
 ```
+
+演员不存在
+```python
+return Response({
+	'state': 0,
+	'error': 'Actor not found'
+}, status=status.HTTP_404_NOT_FOUND)
+```
+
+该演员无电影
+```python
+return Response({
+	'state': 0,
+	'error': 'No movies found for the actor'
+}, status=status.HTTP_404_NOT_FOUND)
+```
+
+获取成功
+```python
+return Response({
+	'state': 1,
+	'error': '',
+	'movies': movie_data
+})
+```
+
+# 以下api暂未实现
 
 ## 导演director
 

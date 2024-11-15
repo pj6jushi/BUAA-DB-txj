@@ -143,6 +143,7 @@ class UserHistoryUpload(APIView):
                 'error': 'Movie not found'
             }, status=status.HTTP_400_BAD_REQUEST)
 
+
 class UserHistoryQuery(APIView):
     def post(self, request):
         uid = request.data.get('Uid')
@@ -406,29 +407,36 @@ class MovieActor(APIView):
     def post(self, request):
         mid = request.data.get('Mid')
 
-        # 查找该电影的所有演员
-        actors_in_movie = Actorinmovie.objects.filter(mid=mid)
+        try:
+            # 检查电影是否存在
+            movie = Movie.objects.get(mid=mid)
 
-        if not actors_in_movie:  # 如果查询集为空
-            return Response({
-                'state': 0,
-                'error': 'No actors found for this movie'
-            }, status=status.HTTP_404_NOT_FOUND)
+            # 查询参演该电影的所有演员及其是否是主演
+            actors_in_movie = Actorinmovie.objects.filter(mid=mid)
 
-        # 获取所有演员及是否主演的信息
-        actor_data = [
-            {
+            if not actors_in_movie:
+                return Response({
+                    'state': 0,
+                    'error': 'No actors found for this movie'
+                }, status=status.HTTP_404_NOT_FOUND)
+
+            # 准备返回的演员数据
+            actor_data = [{
                 'Aid': actor_in_movie.aid.aid,
                 'isStarring': bool(actor_in_movie.isstarring)
-            }
-            for actor_in_movie in actors_in_movie
-        ]
+            } for actor_in_movie in actors_in_movie]
 
-        return Response({
-            'state': 1,
-            'error': '',
-            'actors': actor_data
-        })
+            return Response({
+                'state': 1,
+                'error': '',
+                'actors': actor_data
+            })
+
+        except Movie.DoesNotExist:
+            return Response({
+                'state': 0,
+                'error': 'Movie not found'
+            }, status=status.HTTP_404_NOT_FOUND)
 
 
 class ActorQuery(APIView):
@@ -479,6 +487,41 @@ class ActorUpload(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ActorModify(APIView):
+    def post(self, request):
+        aid = request.data.get('Aid')
+        name = request.data.get('name')
+        photo_url = request.data.get('photoUrl')
+        gender = request.data.get('gender')
+        nationality = request.data.get('nationality')
+        birthdate = request.data.get('birthdate')
+
+        try:
+            # 获取要修改的演员对象
+            actor = Actor.objects.get(aid=aid)
+            actor.name = name
+            actor.photopath = photo_url
+            actor.gender = gender
+            actor.nationality = nationality
+            actor.birthdate = birthdate
+            actor.save()
+
+            return Response({
+                'state': 1,
+                'error': ''
+            })
+        except Actor.DoesNotExist:
+            return Response({
+                'state': 0,
+                'error': 'Actor not found'
+            }, status=status.HTTP_400_BAD_REQUEST)
+        except ValidationError as e:
+            return Response({
+                'state': 0,
+                'error': str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+
 class ActorInMovie(APIView):
     def post(self, request):
         aid = request.data.get('Aid')
@@ -518,41 +561,6 @@ class ActorInMovie(APIView):
                 'state': 0,
                 'error': 'Movie not found'
             }, status=status.HTTP_404_NOT_FOUND)
-        except ValidationError as e:
-            return Response({
-                'state': 0,
-                'error': str(e)
-            }, status=status.HTTP_400_BAD_REQUEST)
-
-
-class ActorModify(APIView):
-    def post(self, request):
-        aid = request.data.get('Aid')
-        name = request.data.get('name')
-        photo_url = request.data.get('photoUrl')
-        gender = request.data.get('gender')
-        nationality = request.data.get('nationality')
-        birthdate = request.data.get('birthdate')
-
-        try:
-            # 获取要修改的演员对象
-            actor = Actor.objects.get(aid=aid)
-            actor.name = name
-            actor.photopath = photo_url
-            actor.gender = gender
-            actor.nationality = nationality
-            actor.birthdate = birthdate
-            actor.save()
-
-            return Response({
-                'state': 1,
-                'error': ''
-            })
-        except Actor.DoesNotExist:
-            return Response({
-                'state': 0,
-                'error': 'Actor not found'
-            }, status=status.HTTP_400_BAD_REQUEST)
         except ValidationError as e:
             return Response({
                 'state': 0,
@@ -654,22 +662,30 @@ class ActorMovie(APIView):
     def post(self, request):
         aid = request.data.get('Aid')
 
-        # 查找该演员参演的电影
-        movies = Actorinmovie.objects.filter(aid=aid).select_related('mid')
+        try:
+            # 检查演员是否存在
+            actor = Actor.objects.get(aid=aid)
 
-        if not movies:  # 如果查询集为空
+            # 查找该演员参演的电影
+            movies = Actorinmovie.objects.filter(aid=aid).select_related('mid')
+
+            if not movies:  # 如果查询集为空
+                return Response({
+                    'state': 0,
+                    'error': 'No movies found for the actor'
+                }, status=status.HTTP_404_NOT_FOUND)
+
+            # 返回电影id
+            movie_data = [{'Mid': actor_movie.mid.mid} for actor_movie in movies]
+
+            return Response({
+                'state': 1,
+                'error': '',
+                'movies': movie_data
+            })
+
+        except Actor.DoesNotExist:
             return Response({
                 'state': 0,
-                'error': 'No movies found for the actor'
+                'error': 'Actor not found'
             }, status=status.HTTP_404_NOT_FOUND)
-
-        # 返回电影id
-        movie_data = [{'Mid': actor_movie.mid.mid} for actor_movie in movies]
-
-        return Response({
-            'state': 1,
-            'error': '',
-            'movies': movie_data
-        })
-
-# TODO 电影：获取评分 评论 导演 演员 标签
